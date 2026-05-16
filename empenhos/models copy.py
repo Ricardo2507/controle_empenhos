@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from django.db import models
 from django.db.models import Sum
 
@@ -21,10 +19,7 @@ class Classe(models.Model):
     codigo = models.PositiveIntegerField('Classe', unique=True)
     descricao = models.CharField('Descrição', max_length=180, blank=True)
     categorias = models.ManyToManyField(
-        Categoria,
-        related_name='classes',
-        blank=True
-    )
+        Categoria, related_name='classes', blank=True)
     ativa = models.BooleanField(default=True)
 
     class Meta:
@@ -33,23 +28,19 @@ class Classe(models.Model):
         verbose_name_plural = 'Classes'
 
     def __str__(self):
-        if self.descricao:
-            return f'{self.codigo} - {self.descricao}'
-        return str(self.codigo)
+        return str(self.codigo) if not self.descricao else f'{self.codigo} - {self.descricao}'
 
 
 class Processo(models.Model):
-    numero = models.CharField(
-        'Número do Processo',
-        max_length=120,
-        unique=True
+    numero = models.CharField('Número do Processo',
+                              max_length=120, unique=True)
+    ano_referencia = models.IntegerField(
+        default=2026
     )
-    ano_referencia = models.IntegerField(default=2026)
     valor_informado = models.DecimalField(
-        'Valor Informado',
         max_digits=14,
         decimal_places=2,
-        default=Decimal('0.00')
+        default=0
     )
     observacao = models.TextField('Observação', blank=True)
     ativo = models.BooleanField(default=True)
@@ -66,93 +57,43 @@ class Processo(models.Model):
 
     @property
     def total_informado(self):
-        return self.valor_informado or Decimal('0.00')
+       return self.valor_informado or 0
 
     @property
     def total_empenhado(self):
-        return (
-            self.lancamentos.aggregate(total=Sum('valor_empenhado'))['total']
-            or Decimal('0.00')
-        )
+        return self.lancamentos.aggregate(total=Sum('valor_empenhado'))['total'] or 0
 
     @property
     def saldo(self):
         return self.total_informado - self.total_empenhado
-
+   
     @property
     def saldo_disponivel(self):
-        return self.saldo
-
-    @property
-    def percentual_empenhado(self):
-        if not self.total_informado:
-            return Decimal('0.00')
-        return (self.total_empenhado / self.total_informado) * Decimal('100')
-
-    @property
-    def situacao(self):
-        if not self.total_informado:
-            return 'Sem valor informado'
-
-        if self.saldo > 0:
-            return 'Parcialmente empenhado'
-
-        if self.saldo == 0:
-            return 'Totalmente empenhado'
-
-        return 'Empenhado acima do informado'
+        return self.valor_informado - self.total_empenhado
 
 
 class LancamentoEmpenho(models.Model):
     MESES = [
-        (1, 'Janeiro'),
-        (2, 'Fevereiro'),
-        (3, 'Março'),
-        (4, 'Abril'),
-        (5, 'Maio'),
-        (6, 'Junho'),
-        (7, 'Julho'),
-        (8, 'Agosto'),
-        (9, 'Setembro'),
-        (10, 'Outubro'),
-        (11, 'Novembro'),
-        (12, 'Dezembro'),
+        (1, 'Janeiro'), (2, 'Fevereiro'), (3, 'Março'), (4, 'Abril'),
+        (5, 'Maio'), (6, 'Junho'), (7, 'Julho'), (8, 'Agosto'),
+        (9, 'Setembro'), (10, 'Outubro'), (11, 'Novembro'), (12, 'Dezembro'),
     ]
 
     mes = models.PositiveSmallIntegerField('Mês', choices=MESES)
     ano = models.PositiveIntegerField('Ano')
-
     classe = models.ForeignKey(
-        Classe,
-        on_delete=models.PROTECT,
-        related_name='lancamentos'
-    )
+        Classe, on_delete=models.PROTECT, related_name='lancamentos')
     categoria = models.ForeignKey(
-        Categoria,
-        on_delete=models.PROTECT,
-        related_name='lancamentos'
-    )
+        Categoria, on_delete=models.PROTECT, related_name='lancamentos')
     processo = models.ForeignKey(
-        Processo,
-        on_delete=models.CASCADE,
-        related_name='lancamentos'
-    )
+        Processo, on_delete=models.CASCADE, related_name='lancamentos')
 
     valor_empenhado = models.DecimalField(
-        'Valor Empenhado',
-        max_digits=14,
-        decimal_places=2
-    )
+        'Valor Empenhado', max_digits=14, decimal_places=2)
     data_lancamento = models.DateField(
-        'Data do Lançamento',
-        null=True,
-        blank=True
-    )
+        'Data do Lançamento', null=True, blank=True)
     observacao = models.CharField(
-        'Usuário/Observação',
-        max_length=255,
-        blank=True
-    )
+        'Usuário/Observação', max_length=255, blank=True)
     conferido = models.BooleanField('Conferido?', default=False)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -166,17 +107,17 @@ class LancamentoEmpenho(models.Model):
         return f'{self.get_mes_display()}/{self.ano} - {self.processo}'
 
     @property
-    def valor_informado(self):
-        return self.processo.valor_informado or Decimal('0.00')
-
-    @property
-    def saldo(self):
-        return self.processo.saldo
-
-    @property
     def percentual_empenhado(self):
-        return self.processo.percentual_empenhado
+        if not self.valor_informado:
+            return 0
+        return (self.valor_empenhado / self.valor_informado) * 100
 
     @property
     def situacao(self):
-        return self.processo.situacao
+        if not self.valor_informado:
+            return 'Sem valor informado'
+        if self.saldo > 0:
+            return 'Parcialmente empenhado'
+        if self.saldo == 0:
+            return 'Totalmente empenhado'
+        return 'Empenhado acima do informado'
