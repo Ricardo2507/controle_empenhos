@@ -1,0 +1,147 @@
+{% extends 'empenhos/base.html' %}
+{% load br_filters %}
+
+{% block page_title %}
+Painel de Controle
+{% endblock %}
+
+{% block content %}
+
+{% include 'empenhos/partials/filter_bar.html' %}
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div>
+                <span>Valor Informado</span>
+                <strong>{{ total_informado|brl }}</strong>
+            </div>
+            <i class="bi bi-wallet2"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div>
+                <span>Valor Empenhado</span>
+                <strong>{{ total_empenhado|brl }}</strong>
+            </div>
+            <i class="bi bi-cash-stack"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div>
+                <span>Saldo</span>
+                <strong>{{ saldo|brl }}</strong>
+            </div>
+            <i class="bi bi-graph-up-arrow"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div>
+                <span>Processos</span>
+                <strong>{{ total_processos }}</strong>
+            </div>
+            <i class="bi bi-folder-check"></i>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-3">
+                    Top classes utilizadas
+                </h5>
+
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>Descrição</th>
+                            <th class="text-end">Empenhado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in top_classes %}
+                        <tr>
+                            <td>
+                                {{ item.classe__codigo }}
+                            </td>
+
+                            <td>
+                                {{ item.classe__descricao|default:"-" }}
+                            </td>
+
+                            <td class="text-end">
+                                {{ item.total|brl }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">
+                                Sem dados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-3">
+                    Categorias
+                </h5>
+
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th class="text-end">Empenhado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in top_categorias %}
+                        <tr>
+                            <td>
+                                {{ item.categoria__nome }}
+                            </td>
+
+                            <td class="text-end">
+                                {{ item.total|brl }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center text-muted py-4">
+                                Sem dados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

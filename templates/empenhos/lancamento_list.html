@@ -1,0 +1,99 @@
+{% extends 'empenhos/base.html' %}
+{% load br_filters %}
+
+{% block page_title %}
+Lançamentos
+{% endblock %}
+
+{% block content %}
+
+{% include 'empenhos/partials/filter_bar.html' %}
+
+<div class="page-actions">
+  <h1>Lançamentos de Empenhos</h1>
+
+  <button
+    class="btn btn-primary rounded-pill"
+    hx-get="{% url 'lancamento_create' %}"
+    hx-target="#modalContent"
+    data-bs-toggle="modal"
+    data-bs-target="#modalGlobal"
+  >
+    <i class="bi bi-plus-lg"></i>
+    Novo Lançamento
+  </button>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <table class="table datatable align-middle">
+      <thead>
+        <tr>
+          <th>Mês</th>
+          <th>Ano</th>
+          <th>Classe</th>
+          <th>Categoria</th>
+          <th>Processo</th>
+          <th class="text-end">Empenhado</th>
+          <th>Data</th>
+          <th>Conferido</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in lancamentos %}
+        <tr>
+          <td>{{ item.get_mes_display|default:item.mes }}</td>
+          <td>{{ item.ano }}</td>
+          <td>{{ item.classe.codigo }}</td>
+          <td>{{ item.categoria.nome }}</td>
+          <td>{{ item.processo.numero }}</td>
+
+          <td class="text-end">
+            {{ item.valor_empenhado|brl }}
+          </td>
+
+          <td>{{ item.data_lancamento|date:"d/m/Y" }}</td>
+
+          <td>
+            {% if item.conferido %}
+              <span class="badge rounded-pill text-bg-success">Sim</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">Não</span>
+            {% endif %}
+          </td>
+
+          <td class="text-end">
+            <button
+              class="btn btn-sm btn-outline-primary action-btn"
+              title="Editar"
+              hx-get="{% url 'lancamento_update' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger action-btn"
+              title="Excluir"
+              hx-get="{% url 'lancamento_delete' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

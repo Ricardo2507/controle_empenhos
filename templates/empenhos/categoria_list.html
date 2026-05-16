@@ -1,0 +1,80 @@
+{% extends 'empenhos/base.html' %}
+
+{% block page_title %}
+Categorias
+{% endblock %}
+
+{% block content %}
+
+<div class="page-actions">
+  <h1>Categorias</h1>
+
+  <button
+    class="btn btn-primary rounded-pill"
+    hx-get="{% url 'categoria_create' %}"
+    hx-target="#modalContent"
+    data-bs-toggle="modal"
+    data-bs-target="#modalGlobal"
+  >
+    <i class="bi bi-plus-lg"></i>
+    Nova Categoria
+  </button>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <table class="table datatable align-middle">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Status</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in categorias %}
+        <tr>
+          <td>{{ item.nome }}</td>
+
+          <td>
+            {% if item.ativa %}
+              <span class="badge rounded-pill text-bg-success">Ativa</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">Inativa</span>
+            {% endif %}
+          </td>
+
+          <td class="text-end">
+            <button
+              class="btn btn-sm btn-outline-primary action-btn"
+              title="Editar"
+              hx-get="{% url 'categoria_update' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger action-btn"
+              title="Excluir"
+              hx-get="{% url 'categoria_delete' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

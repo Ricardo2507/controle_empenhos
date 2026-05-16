@@ -1,0 +1,7 @@
+{% extends 'empenhos/base.html' %}{% load br_filters %}
+{% block page_title %}Resumo do Processo{% endblock %}
+{% block content %}
+<div class="page-actions"><div><h1>{{ processo.numero }}</h1><p class="text-muted mb-0">{{ processo.observacao|default:'Resumo gerencial do processo' }}</p></div><a href="{% url 'processo_list' %}" class="btn btn-light rounded-pill">Voltar</a></div>
+<div class="row g-3 mb-4"><div class="col-md-4"><div class="kpi-card"><span>Informado</span><strong>{{ informado|brl }}</strong></div></div><div class="col-md-4"><div class="kpi-card"><span>Empenhado</span><strong>{{ empenhado|brl }}</strong></div></div><div class="col-md-4"><div class="kpi-card"><span>Saldo</span><strong>{{ saldo|brl }}</strong></div></div></div>
+<div class="card border-0 shadow-sm"><div class="card-body"><table class="table datatable"><thead><tr><th>Mês</th><th>Classe</th><th>Categoria</th><th class="text-end">Informado</th><th class="text-end">Empenhado</th><th>Situação</th></tr></thead><tbody>{% for item in lancamentos %}<tr><td>{{ item.get_mes_display }}/{{ item.ano }}</td><td>{{ item.classe.codigo }}</td><td>{{ item.categoria.nome }}</td><td class="text-end">{{ item.valor_informado|brl }}</td><td class="text-end">{{ item.valor_empenhado|brl }}</td><td>{{ item.situacao }}</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}

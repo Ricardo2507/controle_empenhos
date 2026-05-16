@@ -1,0 +1,6 @@
+<form method="post" hx-post="{{ request.path }}" hx-target="#modalContent" hx-swap="innerHTML">
+  {% csrf_token %}
+  <div class="modal-header border-0"><h5 class="modal-title fw-bold">Excluir registro</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p class="mb-0">Confirma a exclusão de <strong>{{ object }}</strong>?</p></div>
+  <div class="modal-footer border-0"><button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-danger rounded-pill px-4">Excluir</button></div>
+</form>

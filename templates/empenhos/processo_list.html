@@ -1,0 +1,94 @@
+{% extends 'empenhos/base.html' %}
+{% load br_filters %}
+
+{% block page_title %}
+Processos
+{% endblock %}
+
+{% block content %}
+
+<div class="page-actions">
+  <h1>Processos</h1>
+
+  <button
+    class="btn btn-primary rounded-pill"
+    hx-get="{% url 'processo_create' %}"
+    hx-target="#modalContent"
+    data-bs-toggle="modal"
+    data-bs-target="#modalGlobal"
+  >
+    <i class="bi bi-plus-lg"></i>
+    Novo Processo
+  </button>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <table class="table datatable align-middle">
+      <thead>
+        <tr>
+          <th>Número</th>
+          <th>Observação</th>
+          <th class="text-end">Informado</th>
+          <th class="text-end">Empenhado</th>
+          <th class="text-end">Saldo</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in processos %}
+        <tr>
+          <td>
+            <a href="{% url 'processo_detail' item.pk %}">
+              {{ item.numero }}
+            </a>
+          </td>
+
+          <td>{{ item.observacao|default:'-' }}</td>
+
+          <td class="text-end">
+            {{ item.valor_informado|brl }}
+          </td>
+
+          <td class="text-end">
+            {{ item.total_empenhado|brl }}
+          </td>
+
+          <td class="text-end">
+            {{ item.saldo_disponivel|brl }}
+          </td>
+
+          <td class="text-end">
+            <button
+              class="btn btn-sm btn-outline-primary action-btn"
+              title="Editar"
+              hx-get="{% url 'processo_update' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger action-btn"
+              title="Excluir"
+              hx-get="{% url 'processo_delete' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

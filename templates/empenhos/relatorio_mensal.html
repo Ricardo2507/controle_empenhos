@@ -1,0 +1,81 @@
+{% extends 'empenhos/base.html' %}
+{% load br_filters %}
+
+{% block page_title %}
+Relatório Mensal
+{% endblock %}
+
+{% block content %}
+
+{% include 'empenhos/partials/filter_bar.html' %}
+
+<div class="page-actions">
+    <h1>Relatório Mensal</h1>
+
+    <button class="btn btn-outline-secondary rounded-pill">
+        <i class="bi bi-printer"></i>
+        Imprimir
+    </button>
+</div>
+
+<div class="print-sheet card border-0 shadow-sm">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="mb-1">Relatório Mensal para Impressão</h3>
+
+                <div class="text-muted">
+                    Total do mês:
+                    <strong>{{ total_empenhado|brl }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <table class="table datatable align-middle">
+            <thead>
+                <tr>
+                    <th>Classe</th>
+                    <th>Descrição</th>
+                    <th class="text-end">Processos</th>
+                    <th class="text-end">Total no Mês</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in relatorio_mensal %}
+
+                <tr>
+                    <td>{{ item.classe }}</td>
+
+                    <td>
+                        {{ item.descricao|default:"-" }}
+                    </td>
+
+                    <td class="text-end">
+                        {{ item.processos }}
+                    </td>
+
+                    <td class="text-end">
+                        {{ item.total_mes|brl }}
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-4">
+                        Nenhum registro encontrado.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

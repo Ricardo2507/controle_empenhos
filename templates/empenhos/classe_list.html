@@ -1,0 +1,93 @@
+{% extends 'empenhos/base.html' %}
+
+{% block page_title %}
+Classes
+{% endblock %}
+
+{% block content %}
+
+<div class="page-actions">
+  <h1>Classes</h1>
+
+  <button
+    class="btn btn-primary rounded-pill"
+    hx-get="{% url 'classe_create' %}"
+    hx-target="#modalContent"
+    data-bs-toggle="modal"
+    data-bs-target="#modalGlobal"
+  >
+    <i class="bi bi-plus-lg"></i>
+    Nova Classe
+  </button>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <table class="table datatable align-middle">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Descrição</th>
+          <th>Categorias</th>
+          <th>Status</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in classes %}
+        <tr>
+          <td>{{ item.codigo }}</td>
+          <td>{{ item.descricao }}</td>
+
+          <td>
+            {% for categoria in item.categorias.all %}
+              <span class="badge rounded-pill text-bg-light border">
+                {{ categoria.nome }}
+              </span>
+            {% empty %}
+              <span class="text-muted">-</span>
+            {% endfor %}
+          </td>
+
+          <td>
+            {% if item.ativa %}
+              <span class="badge rounded-pill text-bg-success">Ativa</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">Inativa</span>
+            {% endif %}
+          </td>
+
+          <td class="text-end">
+            <button
+              class="btn btn-sm btn-outline-primary action-btn"
+              title="Editar"
+              hx-get="{% url 'classe_update' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger action-btn"
+              title="Excluir"
+              hx-get="{% url 'classe_delete' item.pk %}"
+              hx-target="#modalContent"
+              data-bs-toggle="modal"
+              data-bs-target="#modalGlobal"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

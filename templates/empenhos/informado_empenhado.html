@@ -1,0 +1,56 @@
+{% extends 'empenhos/base.html' %}
+{% load br_filters %}
+
+{% block page_title %}
+Informado x Empenhado
+{% endblock %}
+
+{% block content %}
+
+{% include 'empenhos/partials/filter_bar.html' %}
+
+<div class="page-actions">
+    <h1>Resumo do Informado x Empenhado</h1>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <table class="table datatable align-middle">
+            <thead>
+                <tr>
+                    <th>Classe</th>
+                    <th>Processo</th>
+                    <th class="text-end">Informado</th>
+                    <th class="text-end">Empenhado</th>
+                    <th class="text-end">Saldo</th>
+                    <th class="text-end">%</th>
+                    <th>Situação</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in informado_empenhado %}
+                <tr>
+                    <td>{{ item.classe }}</td>
+                    <td>{{ item.processo }}</td>
+                    <td class="text-end">{{ item.total_informado|brl }}</td>
+                    <td class="text-end">{{ item.total_empenhado|brl }}</td>
+                    <td class="text-end">{{ item.saldo|brl }}</td>
+                    <td class="text-end">{{ item.percentual|floatformat:2 }}%</td>
+                    <td>{{ item.situacao }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        Nenhum registro encontrado.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

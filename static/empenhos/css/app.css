@@ -1,0 +1,706 @@
+:root {
+  --bg: #f5f7fb;
+  --ink: #152238;
+  --muted: #6c778b;
+  --primary: #315efb;
+  --card: #fff;
+  --line: #e6eaf2;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family:
+    Inter,
+    Segoe UI,
+    Arial,
+    sans-serif;
+}
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 270px;
+  background: linear-gradient(180deg, #111827, #1d2a44);
+  color: #fff;
+  padding: 24px 18px;
+  position: fixed;
+  inset: 0 auto 0 0;
+}
+.brand {
+  font-size: 1.35rem;
+  font-weight: 800;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.sidebar .nav-link {
+  color: #dbe5ff;
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.nav-section {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8fa0bd;
+  margin: 18px 12px 8px;
+}
+.main-content {
+  margin-left: 270px;
+  flex: 1;
+}
+.topbar {
+  height: 76px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.content-area {
+  padding: 28px 32px;
+}
+.page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+.page-actions h1 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 0;
+}
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 12px 28px rgba(24, 39, 75, 0.07);
+  min-height: 132px;
+}
+.kpi-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.kpi-card strong {
+  font-size: 1.65rem;
+  display: block;
+  margin-top: 12px;
+}
+.kpi-card i {
+  position: absolute;
+  right: 22px;
+  bottom: 14px;
+  font-size: 3.3rem;
+  color: rgba(49, 94, 251, 0.13);
+}
+.card {
+  border-radius: 22px;
+}
+.filter-card {
+  border-radius: 22px;
+}
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.btn {
+  font-weight: 600;
+}
+.form-control,
+.form-select {
+  border-radius: 14px;
+  border-color: #d8deeb;
+  padding: 0.67rem 0.8rem;
+}
+.table > thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #69758a;
+  background: #f8faff;
+}
+.dataTables_filter input {
+  border-radius: 999px !important;
+}
+.dt-buttons .btn {
+  border-radius: 999px !important;
+}
+.status-badge {
+  background: #eef3ff;
+  color: #315efb;
+}
+.login-bg {
+  min-height: 100vh;
+  background: radial-gradient(
+    circle at top left,
+    #dbe7ff,
+    #f8fafc 44%,
+    #eef2ff
+  );
+  display: grid;
+  place-items: center;
+}
+.login-card {
+  width: min(430px, 92vw);
+  border-radius: 28px;
+}
+select[multiple] {
+  min-height: 160px;
+}
+@media (max-width: 900px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+  .app-shell {
+    display: block;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .topbar {
+    padding: 0 16px;
+  }
+  .content-area {
+    padding: 18px;
+  }
+}
+@media print {
+  .sidebar,
+  .topbar,
+  .filter-card,
+  .page-actions .btn,
+  .dt-buttons,
+  .dataTables_filter,
+  .dataTables_length,
+  .dataTables_info,
+  .dataTables_paginate {
+    display: none !important;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .content-area {
+    padding: 0;
+    background: #fff;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  .print-sheet {
+    display: block;
+  }
+}
+.dt-buttons .btn,
+.dt-button {
+    border: none !important;
+    border-radius: 999px !important;
+    padding: 0.45rem 0.85rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    background: #eef2ff !important;
+    color: #1e3a8a !important;
+    box-shadow: none !important;
+}
+
+.dt-buttons .btn:hover,
+.dt-button:hover {
+    background: #2563eb !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary,
+.btn-outline-danger {
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.sidebar .nav-link {
+    border-radius: 14px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(3px);
+}
+
+.sidebar .nav-link.active {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+}
+/* ===== Sidebar refinada ===== */
+
+.sidebar {
+    width: 260px;
+    padding: 22px 18px;
+    background: linear-gradient(180deg, #0f172a 0%, #172554 100%);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-icon i {
+    font-size: 1.25rem;
+    color: #ffffff;
+}
+
+.brand-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.brand-subtitle {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #93c5fd;
+    margin-top: 2px;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 42px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: #dbeafe;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.sidebar .nav-link span {
+    line-height: 1;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background: rgba(255, 255, 255, 0.13);
+    color: #ffffff;
+}
+
+.nav-section {
+    margin: 22px 0 8px;
+    padding-left: 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #93a4bd;
+    font-weight: 700;
+}
+
+
+/* ===== Navbar superior elegante ===== */
+
+.topbar {
+    min-height: 74px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topbar-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.topbar-subtitle {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    color: #0f172a;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.user-badge i {
+    font-size: 1rem;
+    color: #2563eb;
+}
+
+.topbar .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    color: #334155;
+    background: #ffffff;
+    font-weight: 700;
+}
+
+.topbar .btn:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+
+/* ===== Rodapé ===== */
+
+.footer-app {
+    margin-top: 32px;
+    padding: 18px 26px;
+    border-top: 1px solid #e5e7eb;
+    color: #64748b;
+    font-size: 0.78rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+
+/* ===== Ajuste dos cards do dashboard ===== */
+
+.metric-card {
+    min-height: 96px;
+    border-radius: 20px;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.metric-card span {
+    display: block;
+    color: #64748b;
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+}
+
+.metric-card strong {
+    display: block;
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.metric-card i {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #eef2ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+/* LOGIN */
+/* LOGIN */
+
+.login-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, .18), transparent 35%),
+        linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 390px;
+    background: #fff;
+    border-radius: 26px;
+    padding: 34px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, .14);
+}
+
+.login-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+
+    background: #eef2ff;
+    color: #2563eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.45rem;
+
+    margin: 0 auto 20px auto;
+}
+
+.login-card h1 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0f172a;
+
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.login-card p {
+    color: #64748b;
+    font-size: .9rem;
+
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-card form {
+    margin-top: 24px;
+}
+
+.login-card .mb-3,
+.login-card .mb-4 {
+    text-align: left;
+}
+
+.login-card .form-label {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: .78rem;
+    font-weight: 700;
+
+    color: #334155;
+}
+
+.login-card .input-group {
+    align-items: center;
+}
+
+.login-card .form-control {
+    height: 46px;
+
+    border-radius: 0 14px 14px 0;
+    border-left: 0;
+
+    font-size: .92rem;
+}
+
+.login-card .input-group-text {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px 0 0 14px;
+
+    background: #f8fafc;
+    border-right: 0;
+
+    color: #2563eb;
+}
+
+.login-btn {
+    width: 100%;
+    min-height: 46px;
+
+    border-radius: 14px;
+
+    font-weight: 700;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* DATATABLE MAIS ELEGANTE */
+
+.table.datatable {
+    font-size: .82rem;
+}
+
+.table.datatable thead th {
+    font-size: .70rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #64748b;
+    font-weight: 800;
+}
+
+.table.datatable tbody td {
+    vertical-align: middle;
+}
+
+
+/* BOTÕES DE AÇÃO COM ÍCONES */
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 4px;
+}
+
+.action-btn i {
+    font-size: .9rem;
+}
+
+.table.datatable {
+    font-size: .82rem;
+}
+
+.table.datatable thead th {
+    font-size: .70rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #64748b;
+    font-weight: 800;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 4px;
+}
+/* ======================================================
+   DATATABLE BUTTONS
+====================================================== */
+
+.dt-buttons {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.dt-button.buttons-copy,
+.dt-button.buttons-excel,
+.dt-button.buttons-pdf,
+.dt-button.buttons-print {
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    color: #334155 !important;
+
+    border-radius: 12px !important;
+
+    min-height: 38px !important;
+
+    padding: 0 16px !important;
+
+    font-size: .78rem !important;
+    font-weight: 700 !important;
+
+    transition: all .2s ease;
+}
+
+.dt-button.buttons-copy:hover,
+.dt-button.buttons-excel:hover,
+.dt-button.buttons-pdf:hover,
+.dt-button.buttons-print:hover {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    border-color: #bfdbfe !important;
+}
+
+/* Ícones opcionais */
+
+.dt-button.buttons-copy::before {
+    content: "\f759";
+    font-family: bootstrap-icons;
+    margin-right: 6px;
+}
+
+.dt-button.buttons-excel::before {
+    content: "\f3c2";
+    font-family: bootstrap-icons;
+    margin-right: 6px;
+}
+
+.dt-button.buttons-pdf::before {
+    content: "\f63e";
+    font-family: bootstrap-icons;
+    margin-right: 6px;
+}
+
+.dt-button.buttons-print::before {
+    content: "\f570";
+    font-family: bootstrap-icons;
+    margin-right: 6px;
+}
