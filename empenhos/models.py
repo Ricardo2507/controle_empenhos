@@ -113,10 +113,6 @@ class LancamentoEmpenho(models.Model):
         return f'{self.get_mes_display()}/{self.ano} - {self.processo}'
 
     @property
-    def saldo(self):
-        return self.valor_informado - self.valor_empenhado
-
-    @property
     def percentual_empenhado(self):
         if not self.valor_informado:
             return 0
